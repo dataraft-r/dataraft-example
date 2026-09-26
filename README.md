@@ -1,33 +1,22 @@
-# Checked delivery with DataRaft
+# A checked delivery with DataRaft
 
-[![Checked delivery](https://github.com/dataraft-r/dataraft-example/actions/workflows/example.yaml/badge.svg)](https://github.com/dataraft-r/dataraft-example/actions/workflows/example.yaml)
+**Run one data delivery, check it, and keep a version you can revisit.**
 
-A small, runnable example of a checked data delivery without DuckDB or Arrow.
-It writes a versioned RDS delivery, an ODCS contract and an HTML quality report.
+This example starts with three orders. It checks the columns and amounts, writes an RDS release, and creates a contract file and an HTML quality report. Start with the [DataRaft overview](https://github.com/dataraft-r/dataraft) if you want to understand the whole package family first.
 
-## Run
+## Run the example
 
-Requires R 4.2 or later. Install the two DataRaft components:
-
-```r
-install.packages("pak")
-pak::pak(c("dataraft-r/dataraft.core", "dataraft-r/dataraft.adapters"), dependencies = NA)
-```
-
-Clone this repository, then run from its directory:
+Requires R 4.2 or later and Git. Clone the repository, install its two DataRaft packages, and run the script:
 
 ```sh
+git clone https://github.com/dataraft-r/dataraft-example.git
+cd dataraft-example
+Rscript -e 'install.packages("pak"); pak::pak(c("dataraft-r/dataraft.core", "dataraft-r/dataraft.adapters"), dependencies = NA)'
 Rscript run.R
 ```
 
-The script checks three orders whose amounts sum to 150. Set the environment
-variable `DATARAFT_EXAMPLE_OUTPUT` to a directory to retain the output. Otherwise
-the example uses a temporary directory. The printed version pins later reads
-with `dr_source_rds()`.
+The script prints a release version. It checks that the saved order amounts add up to 150. By default it uses a temporary directory; set `DATARAFT_EXAMPLE_OUTPUT` to a directory to keep the RDS release, ODCS contract and HTML report.
 
-The GitHub Actions workflow installs only hard package dependencies and checks
-the example on every push and pull request.
+The [source script](run.R) shows the complete flow. Read the [getting-started guide](https://dataraft-r.github.io/dataraft/articles/get-started.html) for the concepts or the [adapters documentation](https://dataraft-r.github.io/dataraft/components/dataraft.adapters/reference/index.html) for RDS targets. The [GitHub Actions workflow](.github/workflows/example.yaml) runs the script on every change.
 
-See the [DataRaft documentation](https://dataraft-r.github.io/dataraft/) and
-[guarantees](https://github.com/dataraft-r/dataraft/blob/main/vignettes/guarantees.Rmd).
-DataRaft is experimental software; this example is not a production certification.
+DataRaft is under development. This example demonstrates one checked delivery, not a production certification.
